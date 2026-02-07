@@ -3,7 +3,7 @@ INFORMACIJE
 **********************
 .env
 -.env mora imati svako zasebno jer je u gitignore
--sadrzaj - DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgre
+-sadrzaj - DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres
 
 ********************
 evo par komandi koje sam koristio za drizzle i postgres
