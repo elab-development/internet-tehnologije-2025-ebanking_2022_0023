@@ -1,0 +1,3 @@
+/**
+ * DB schema definition
+ */
