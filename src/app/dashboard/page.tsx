@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthenticationContext";
-import { accountService } from "@/services/api";
+import { accountService, currencyService } from "@/services/api";
 import { Account } from "@/shared/types";
 import AccountCard from "@/components/AccountCard";
 import Navigation from "@/components/Navigation";
@@ -30,9 +30,24 @@ export default function DashboardPage() {
     const fetchAccounts = async () => {
       if (user) {
         const res = await accountService.getAccountsByClientId();
-        const data = await res.json()
-        if (data.success){
-          setAccounts(data.accounts);
+        const data = await res.json();
+        if (data.success) {
+          const newAccounts = await Promise.all(
+            data.accounts.map(async (acc) => {
+              const currencyData = await (
+                await currencyService.getCurrencyById(acc.currencyID)
+              ).json();
+              return {
+                id: acc.id,
+                accountNo: acc.accountNo,
+                balance: acc.balance,
+                status: acc.status,
+                currency: currencyData.currency,
+              };
+            }),
+          );
+          console.log(newAccounts);
+          setAccounts(newAccounts);
           setIsLoading(false);
         }
       }

@@ -71,3 +71,14 @@ export const transactionService = {
     });
   },
 };
+
+export const currencyService = {
+  async getCurrencyById(id: string): Promise<Response> {
+    return fetch(`/api/currencies/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  },
+};
