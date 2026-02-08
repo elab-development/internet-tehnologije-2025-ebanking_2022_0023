@@ -86,6 +86,23 @@ This command will:
 
 *apply them all
 
+**********************
+INFORMACIJE
+**********************
+.env
+-.env mora imati svako zasebno jer je u gitignore
+-sadrzaj - DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres
+
+********************
+evo par komandi koje sam koristio za drizzle i postgres
+***sa drizzle dokumentacije
+-npm i drizzle-orm pg dotenv
+-npm i -D drizzle-kit tsx @types/pg
+
+***iz iskripte
+-npm i bcrypt drizzle-orm jsonwebtoken pg tsx @remixicon/react
+-npm i -D @types/bcrypt @types/jsonwebtoken @types/node @types/pg dotenv drizzle-kit
+
 
 
 
