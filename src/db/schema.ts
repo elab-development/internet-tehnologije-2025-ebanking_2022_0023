@@ -1,4 +1,4 @@
-import { pgTable, serial, varchar, text, timestamp, boolean, integer, numeric, pgEnum } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, serial, varchar, text, timestamp, boolean, integer, numeric, pgEnum } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 /**
@@ -24,7 +24,7 @@ export const userRoleEnum = pgEnum('user_role', ['ADMIN', 'MANAGER', 'CLIENT']);
 
 // Currency Table
 export const currencies = pgTable('currencies', {
-  id: serial('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(), //izmenjeno sa serial na uuid
   code: varchar('code', { length: 3 }).notNull().unique(), // 'USD'
   name: varchar('name', { length: 100 }).notNull(), // 'American Dollar'
   symbol: varchar('symbol', { length: 10 }).notNull(), // '$'
@@ -32,13 +32,13 @@ export const currencies = pgTable('currencies', {
 
 // Base Users Table (all users stored here)
 export const users = pgTable('users', {                                        //izbaceno any
-  id: serial('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(), //izmenjeno sa serial na uuid
   role: userRoleEnum('role').notNull(),
   email: varchar('email', { length: 255 }).notNull().unique(),
   password: varchar('password', { length: 255 }).notNull(),
   firstName: varchar('first_name', { length: 100 }).notNull(),
   lastName: varchar('last_name', { length: 100 }).notNull(),
-  phone: varchar('phone', { length: 30 }).notNull(),                        //0002 migracija menja sa 20 na 30
+  phone: varchar('phone', { length: 20 }).notNull(),                        //0006 migracija menja sa 30 na 20
   nationalId: varchar('national_id', { length: 50 }).notNull().unique(),
   dateOfBirth: timestamp('date_of_birth').notNull(),
   sex: sexEnum('sex').notNull(),
@@ -52,26 +52,26 @@ export const users = pgTable('users', {                                        /
 // Manager-Client relationship table (for many-to-many if needed, or one-to-many tracking)
 // This table tracks which managers are assigned to which clients
 export const managerClients = pgTable('manager_clients', {
-  id: serial('id').primaryKey(),
-  managerID: integer('manager_id').notNull().references(() => users.id),
-  clientID: integer('client_id').notNull().references(() => users.id),
+  id: uuid('id').primaryKey().defaultRandom(), //izmenjeno sa serial na uuid
+  managerID: uuid('manager_id').notNull().references(() => users.id),
+  clientID: uuid('client_id').notNull().references(() => users.id),
   
 });
 
 // Account Table
 export const accounts = pgTable('accounts', {
-  id: serial('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(), //izmenjeno sa serial na uuid
   accountNo: varchar('account_no', { length: 50 }).notNull().unique(),
   balance: numeric('balance', { precision: 15, scale: 2 }).notNull().default('0').$type<number>(),    //dodao decimal mapping jer se numeric pretvara u string a u types je dat kao numericki tip
   createdAt: timestamp('created_at').notNull().defaultNow(),
   status: accountStatusEnum('status').notNull().default('Aktivan'),
-  clientID: integer('client_id').notNull().references(() => users.id, { onDelete: 'cascade' }),       //dodao cascade If a user is deleted Their accounts / relations should be cleaned up Otherwise Postgres will block deletes
-  currencyID: integer('currency_id').notNull().references(() => currencies.id),
+  clientID: uuid('client_id').notNull().references(() => users.id, { onDelete: 'cascade' }),       //dodao cascade If a user is deleted Their accounts / relations should be cleaned up Otherwise Postgres will block deletes
+  currencyID: uuid('currency_id').notNull().references(() => currencies.id),
 });
 
 // Transaction Table
 export const transactions = pgTable('transactions', {
-  id: serial('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(), //izmenjeno sa serial na uuid
   amount: numeric('amount', { precision: 15, scale: 2 }).notNull().$type<number>(),                   //dodao decimal mapping jer se numeric pretvara u string a u types je dat kao numericki tip
   timestamp: timestamp('timestamp').notNull().defaultNow(),
   accountSrcNo: varchar('account_src_no', { length: 50 }).notNull(),
@@ -79,11 +79,11 @@ export const transactions = pgTable('transactions', {
   description: text('description'),
   status: transactionStatusEnum('status').notNull().default('Na čekanju'),
   category: expenseCategoryEnum('category'),
-  currencyID: integer('currency_id').notNull().references(() => currencies.id),
+  currencyID: uuid('currency_id').notNull().references(() => currencies.id),
   
   // Foreign keys to actual account IDs (optional, for better relational integrity)
-  accountSrcID: integer('account_src_id').references(() => accounts.id),
-  accountDestID: integer('account_dest_id').references(() => accounts.id),
+  accountSrcID: uuid('account_src_id').references(() => accounts.id),
+  accountDestID: uuid('account_dest_id').references(() => accounts.id),
 });
 
 /**

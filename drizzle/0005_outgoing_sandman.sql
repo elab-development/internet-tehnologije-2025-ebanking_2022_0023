@@ -4,18 +4,18 @@ CREATE TYPE "public"."sex" AS ENUM('Muški', 'Ženski');--> statement-breakpoint
 CREATE TYPE "public"."transaction_status" AS ENUM('Na čekanju', 'Izvršena', 'Neuspešna');--> statement-breakpoint
 CREATE TYPE "public"."user_role" AS ENUM('ADMIN', 'MANAGER', 'CLIENT');--> statement-breakpoint
 CREATE TABLE "accounts" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"account_no" varchar(50) NOT NULL,
 	"balance" numeric(15, 2) DEFAULT '0' NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"status" "account_status" DEFAULT 'Aktivan' NOT NULL,
-	"client_id" integer NOT NULL,
-	"currency_id" integer NOT NULL,
+	"client_id" uuid NOT NULL,
+	"currency_id" uuid NOT NULL,
 	CONSTRAINT "accounts_account_no_unique" UNIQUE("account_no")
 );
 --> statement-breakpoint
 CREATE TABLE "currencies" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"code" varchar(3) NOT NULL,
 	"name" varchar(100) NOT NULL,
 	"symbol" varchar(10) NOT NULL,
@@ -23,13 +23,13 @@ CREATE TABLE "currencies" (
 );
 --> statement-breakpoint
 CREATE TABLE "manager_clients" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"manager_id" integer NOT NULL,
-	"client_id" integer NOT NULL
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"manager_id" uuid NOT NULL,
+	"client_id" uuid NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "transactions" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"amount" numeric(15, 2) NOT NULL,
 	"timestamp" timestamp DEFAULT now() NOT NULL,
 	"account_src_no" varchar(50) NOT NULL,
@@ -37,19 +37,19 @@ CREATE TABLE "transactions" (
 	"description" text,
 	"status" "transaction_status" DEFAULT 'Na čekanju' NOT NULL,
 	"category" "expense_category",
-	"currency_id" integer NOT NULL,
-	"account_src_id" integer,
-	"account_dest_id" integer
+	"currency_id" uuid NOT NULL,
+	"account_src_id" uuid,
+	"account_dest_id" uuid
 );
 --> statement-breakpoint
 CREATE TABLE "users" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"role" "user_role" NOT NULL,
 	"email" varchar(255) NOT NULL,
 	"password" varchar(255) NOT NULL,
 	"first_name" varchar(100) NOT NULL,
 	"last_name" varchar(100) NOT NULL,
-	"phone" varchar(20) NOT NULL,
+	"phone" varchar(30) NOT NULL,
 	"national_id" varchar(50) NOT NULL,
 	"date_of_birth" timestamp NOT NULL,
 	"sex" "sex" NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE "users" (
 	CONSTRAINT "users_national_id_unique" UNIQUE("national_id")
 );
 --> statement-breakpoint
-ALTER TABLE "accounts" ADD CONSTRAINT "accounts_client_id_users_id_fk" FOREIGN KEY ("client_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "accounts" ADD CONSTRAINT "accounts_client_id_users_id_fk" FOREIGN KEY ("client_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_currency_id_currencies_id_fk" FOREIGN KEY ("currency_id") REFERENCES "public"."currencies"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "manager_clients" ADD CONSTRAINT "manager_clients_manager_id_users_id_fk" FOREIGN KEY ("manager_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "manager_clients" ADD CONSTRAINT "manager_clients_client_id_users_id_fk" FOREIGN KEY ("client_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint

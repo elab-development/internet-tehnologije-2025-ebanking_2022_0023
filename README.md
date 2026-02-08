@@ -67,10 +67,11 @@ Prerequisites
 
 
 
-1. Migracija 0000 kreira tabele
-2. Migracija 0001 menja kolonu 'phone' u tabeli 'users'
-3. Migracija 0002 dodaje 'middle_name' u 'users' - NULLABLE da ne bi pukla migracija
-4. Migracija 0003 brise 'middle_name' 
+1. Migracija 0005 kreira tabele
+2. Migracija 0005 menja kolonu 'phone' u tabeli 'users'
+3. Migracija 0007 dodaje 'middle_name' u 'users' - NULLABLE da ne bi pukla migracija
+4. Migracija 0008 brise 'middle_name' 
+
 
 Neka vas ne brine No config path provided, JER using default 'drizzle.config.ts'
 POSTUPAK kreiranje migracija:
@@ -87,7 +88,12 @@ This command will:
 *apply them all
 
 
-
-
+*********
+UUID
+********
+Ako ne moze da pronadje simbol uuid, izvrsite docker exec -it banka-postgres psql -U postgres -d postgres, 
+pa u psql terminalu CREATE EXTENSION IF NOT EXISTS "uuid-ossp";, 
+ako je uspesno dobicete CREATE EXTENSION
+ukucajte 'exit' za izlazak iz terminala
 
 
