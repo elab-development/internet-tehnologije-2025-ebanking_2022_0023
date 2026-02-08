@@ -1,0 +1,16 @@
+# docker-compose.yml
+services:
+  postgres:
+    image: postgres:17
+    container_name: banka-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - banka_pgdata:/var/lib/postgresql/data
+
+volumes:
+  banka_pgdata:

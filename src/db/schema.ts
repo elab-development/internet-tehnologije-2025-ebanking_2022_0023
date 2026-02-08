@@ -31,19 +31,22 @@ export const currencies = pgTable('currencies', {
 });
 
 // Base Users Table (all users stored here)
-export const users: any = pgTable('users', {
+export const users = pgTable('users', {                                        //izbaceno any
   id: serial('id').primaryKey(),
   role: userRoleEnum('role').notNull(),
   email: varchar('email', { length: 255 }).notNull().unique(),
   password: varchar('password', { length: 255 }).notNull(),
   firstName: varchar('first_name', { length: 100 }).notNull(),
   lastName: varchar('last_name', { length: 100 }).notNull(),
-  phone: varchar('phone', { length: 20 }).notNull(),
+  phone: varchar('phone', { length: 30 }).notNull(),                        //0002 migracija menja sa 20 na 30
   nationalId: varchar('national_id', { length: 50 }).notNull().unique(),
   dateOfBirth: timestamp('date_of_birth').notNull(),
   sex: sexEnum('sex').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   active: boolean('active').notNull().default(true),
+
+  //middleName: varchar('middle_name', { length: 100 }),                 //dodato radi migracije 0002 - NULLABLE da ne bi pukla migracija       //zakomentarisano radi migracije 0003 - brisanje kolone iz tabele
+
 });
 
 // Manager-Client relationship table (for many-to-many if needed, or one-to-many tracking)
@@ -59,17 +62,17 @@ export const managerClients = pgTable('manager_clients', {
 export const accounts = pgTable('accounts', {
   id: serial('id').primaryKey(),
   accountNo: varchar('account_no', { length: 50 }).notNull().unique(),
-  balance: numeric('balance', { precision: 15, scale: 2 }).notNull().default('0'),
+  balance: numeric('balance', { precision: 15, scale: 2 }).notNull().default('0').$type<number>(),    //dodao decimal mapping jer se numeric pretvara u string a u types je dat kao numericki tip
   createdAt: timestamp('created_at').notNull().defaultNow(),
   status: accountStatusEnum('status').notNull().default('Aktivan'),
-  clientID: integer('client_id').notNull().references(() => users.id),
+  clientID: integer('client_id').notNull().references(() => users.id, { onDelete: 'cascade' }),       //dodao cascade If a user is deleted Their accounts / relations should be cleaned up Otherwise Postgres will block deletes
   currencyID: integer('currency_id').notNull().references(() => currencies.id),
 });
 
 // Transaction Table
 export const transactions = pgTable('transactions', {
   id: serial('id').primaryKey(),
-  amount: numeric('amount', { precision: 15, scale: 2 }).notNull(),
+  amount: numeric('amount', { precision: 15, scale: 2 }).notNull().$type<number>(),                   //dodao decimal mapping jer se numeric pretvara u string a u types je dat kao numericki tip
   timestamp: timestamp('timestamp').notNull().defaultNow(),
   accountSrcNo: varchar('account_src_no', { length: 50 }).notNull(),
   accountDestNo: varchar('account_dest_no', { length: 50 }).notNull(),

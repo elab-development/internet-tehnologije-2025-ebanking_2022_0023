@@ -36,3 +36,50 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 Dusan: Ovo je prvi commit - test
+
+
+
+******************************
+Database migrations (Drizzle)
+******************************
+
+This project uses Drizzle ORM + Drizzle Kit for database migrations.
+
+The initial migration file
+drizzle/0000_loose_human_fly.sql
+creates all base tables, enums, and the __drizzle_migrations table.
+
+Prerequisites
+
+*Node.js installed
+
+*Database running locally (Postgres)
+
+*.env file set up with correct database connection string
+
+
+
+1. Migracija 0000 kreira tabele
+2. Migracija 0001 menja kolonu 'phone' u tabeli 'users'
+3. Migracija 0002 dodaje 'middle_name' u 'users' - NULLABLE da ne bi pukla migracija
+4. Migracija 0003 brise 'middle_name' 
+
+Neka vas ne brine No config path provided, JER using default 'drizzle.config.ts'
+POSTUPAK kreiranje migracija:
+1.izmena u kodu
+2.pokreartanje komande npx drizzle-kit generate
+3.izvrsavanje migracije pokretanje komande npx drizzle-kit migrate
+
+~~~~~~~~~~ npx drizzle-kit migrate ~~~~~~~~~~~~
+
+This command will:
+
+*read existing migration files from drizzle/
+
+*apply them all
+
+
+
+
+
+
