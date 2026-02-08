@@ -38,6 +38,14 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 Dusan: Ovo je prvi commit - test
 
 
+********
+DOCKER
+*******
+-Definisan .yml fajl. 
+-Pokretanje preko docker compose up -d komande
+-gasenje preko docker compose down -v
+
+
 
 ******************************
 Database migrations (Drizzle)
