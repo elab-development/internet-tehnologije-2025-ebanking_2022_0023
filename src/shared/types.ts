@@ -35,14 +35,14 @@ export type UserRole = "ADMIN" | "MANAGER" | "CLIENT";
 
 // Interfaces
 export interface Currency {
-  id: number;
+  id: string;
   code: string; // 'USD'
   name: string; // 'American Dollar'
   symbol: string; // '$'
 }
 
 export interface BaseUser {
-  id: number;
+  id: string;
   role: UserRole;
   email: string;
   password: string;
@@ -71,7 +71,7 @@ export interface Client extends BaseUser {
 }
 
 export interface Account {
-  id: number;
+  id: string;
   accountNo: string;
   balance: number;
   createdAt: Date;
@@ -82,7 +82,7 @@ export interface Account {
 }
 
 export interface Transaction {
-  id: number;
+  id: string;
   amount: number;
   timestamp: Date;
   accountSrcNo: string;
