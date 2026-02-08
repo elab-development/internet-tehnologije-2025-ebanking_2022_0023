@@ -10,6 +10,15 @@ import { NextRequest } from "next/server";
  *
  * Responses:
  * - 200 OK: Returns an array of transactions.
- * -
+ * - 400 BAD_REQUEST: No account with such number.
+ * - 401 UNAUTHORIZED: No JWT or invalid JWT.
+ * - 500 INTERNAL_SERVER_ERROR: Any server side errors.
  */
-export async function GET(req: NextRequest) {}
+export async function GET(req: NextRequest) {
+  // Check for JWT presence and validity
+  // ...
+  // If account doesn't exist, return error code
+  // ...
+  // Fetch from DB and return
+  // ...
+}
