@@ -1,12 +1,14 @@
 {
   "name": "ebanking-webapp",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:seed": "tsx src/db/seed.ts"
   },
   "dependencies": {
     "@remixicon/react": "^4.9.0",
