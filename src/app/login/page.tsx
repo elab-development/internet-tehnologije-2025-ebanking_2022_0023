@@ -1,14 +1,15 @@
 "use client";
 
+import { useState, FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthenticationContext";
 import Button from "@/components/Button";
 import {
-  RiEyeLine,
-  RiEyeOffLine,
   RiLockLine,
   RiMailLine,
+  RiEyeLine,
+  RiEyeOffLine,
 } from "@remixicon/react";
-import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -16,6 +17,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
@@ -23,24 +25,9 @@ export default function LoginPage() {
     setError("");
     setIsLoading(true);
 
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    });
-
-    const data = await res.json();
-
-    const success = data.success;
+    const success = await login(email, password);
 
     if (success) {
-      localStorage.setItem("jwt", data.jwt);
-      localStorage.setItem("user", JSON.stringify(data.user));
       router.push("/dashboard");
     } else {
       setError("Neispravni podaci za prijavu");

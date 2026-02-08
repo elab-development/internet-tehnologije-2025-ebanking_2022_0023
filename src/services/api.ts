@@ -2,13 +2,14 @@ import { Client, Account, Transaction } from "@/shared/types";
 import { mockClient, mockAccounts, mockTransactions } from "@/mock/data";
 
 export const authService = {
-  async login(email: string, password: string): Promise<Client | null> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    if (email === mockClient.email && password === mockClient.password) {
-      return mockClient;
-    }
-    return null;
+  async login(email: string, password: string): Promise<Response> {
+    return fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email, password: password }),
+    });
   },
 
   async logout(): Promise<void> {
@@ -28,33 +29,45 @@ export const clientService = {
 };
 
 export const accountService = {
-  async getAccountsByClientId(clientId: number): Promise<Account[]> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
-
-    return mockAccounts.filter((acc) => acc.clientID === clientId);
+  async getAccountsByClientId(): Promise<Response> {
+    return fetch("/api/accounts", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    });
   },
 
-  async getAccountById(id: number): Promise<Account | null> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
-
-    const account = mockAccounts.find((acc) => acc.id === id);
-    return account || null;
+  async getAccountById(id: string): Promise<Response> {
+    return fetch(`/api/accounts/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    });
   },
 };
 
 export const transactionService = {
-  async getTransactionsByAccountNo(accountNo: string): Promise<Transaction[]> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
-
-    return mockTransactions.filter(
-      (tx) => tx.accountSrcNo === accountNo || tx.accountDestNo === accountNo,
-    );
+  async getTransactionsByAccountNo(accountNo: string): Promise<Response> {
+    return fetch(`/api/transactions?accNo=${accountNo}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    });
   },
 
-  async getTransactionById(id: number): Promise<Transaction | null> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
-
-    const transaction = mockTransactions.find((tx) => tx.id === id);
-    return transaction || null;
+  async getTransactionById(id: string): Promise<Response> {
+    return fetch(`/api/transactions/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    });
   },
 };

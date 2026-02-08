@@ -20,8 +20,11 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const body = await req.json();
-  const jwt = body.jwt;
+  const authHeader = req.headers.get("authorization");
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return NextResponse.json({ success: false }, { status: 401 });
+  }
+  const jwt = authHeader.split(" ")[1];
 
   if (!verifyJwt(jwt)) {
     return NextResponse.json({ success: false }, { status: 401 });

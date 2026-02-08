@@ -20,7 +20,7 @@ export default function AccountDetailsPage() {
   const { user, isLoading: authLoading } = useAuth();
   const router = useRouter();
   const params = useParams();
-  const accountId = Number(params.id);
+  const accountId = params.id!.toString();
 
   const [account, setAccount] = useState<Account | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -42,14 +42,18 @@ export default function AccountDetailsPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const accountData = await accountService.getAccountById(accountId);
-      if (accountData) {
-        setAccount(accountData);
-        const txData = await transactionService.getTransactionsByAccountNo(
-          accountData.accountNo,
+      const res = await accountService.getAccountById(accountId);
+      const data = await res.json();
+      if (data.success) {
+        setAccount(data.account);
+        const res1 = await transactionService.getTransactionsByAccountNo(
+          account!.accountNo,
         );
-        setTransactions(txData);
-        setFilteredTransactions(txData);
+        const data1 = await res1.json();
+        if (data1.success) {
+          setTransactions(data1.transactions);
+          setFilteredTransactions(data1.transactions);
+        }
       }
       setIsLoading(false);
     };

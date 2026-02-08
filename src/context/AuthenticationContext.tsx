@@ -33,10 +33,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const client = await authService.login(email, password);
-      if (client) {
-        setUser(client);
-        localStorage.setItem("user", JSON.stringify(client));
+      const res = await authService.login(email, password);
+      const data = await res.json();
+      if (data.success) {
+        setUser(data.user);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("jwt", data.jwt);
         return true;
       }
       return false;
@@ -50,6 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await authService.logout();
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("jwt");
   };
 
   return (
