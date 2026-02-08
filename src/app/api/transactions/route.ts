@@ -1,4 +1,6 @@
-import { NextRequest } from "next/server";
+import { verifyJwt } from "@/lib/jwt";
+import { getTransactionsByAccNo } from "@/services/transactionsService";
+import { NextRequest, NextResponse } from "next/server";
 
 /**
  * GET /api/transactions
@@ -15,10 +17,20 @@ import { NextRequest } from "next/server";
  * - 500 INTERNAL_SERVER_ERROR: Any server side errors.
  */
 export async function GET(req: NextRequest) {
-  // Check for JWT presence and validity
-  // ...
-  // If account doesn't exist, return error code
-  // ...
-  // Fetch from DB and return
-  // ...
+  const body = await req.json();
+  const jwt = body.jwt;
+
+  if (!verifyJwt(jwt)) {
+    return NextResponse.json({ success: false }, { status: 401 });
+  }
+
+  const { searchParams } = new URL(req.url);
+  const accNo = searchParams.get("accNo");
+
+  const transactions = getTransactionsByAccNo(accNo);
+  if (!transactions) {
+    return NextResponse.json({ success: false }, { status: 400 });
+  }
+
+  return NextResponse.json({ success: true, transactions: transactions });
 }

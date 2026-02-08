@@ -15,16 +15,16 @@ import {
 } from "@remixicon/react";
 
 export default function DashboardPage() {
-  const { user, isLoading: authLoading } = useAuth();
+
   const router = useRouter();
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!authLoading && !user) {
+    if (!localStorage.getItem("user")) {
       router.push("/login");
     }
-  }, [user, authLoading, router]);
+  }, [router]);
 
   useEffect(() => {
     const fetchAccounts = async () => {

@@ -1,4 +1,6 @@
-import { NextRequest } from "next/server";
+import { generateJwt } from "@/lib/jwt";
+import { login } from "@/services/authService";
+import { NextRequest, NextResponse } from "next/server";
 
 /**
  * POST /api/auth/login
@@ -8,15 +10,28 @@ import { NextRequest } from "next/server";
  * Responses:
  * - 200 OK: Successful login. Returns a user object.
  * - 400 BAD_REQUEST: No account with such ID.
- * - 500 INTERNAL_SERVER_ERROR: Any server side errors.
  */
 export async function POST(req: NextRequest) {
-  // Check if user exists
-  // ...
+  const body = await req.json();
+  const { email, password } = body;
 
-  // If user doesn't exist, return error code
-  // ...
+  const user = await login(email, password);
+  if (!user) {
+    return NextResponse.json({ success: false }, { status: 400 });
+  }
 
-  // Generate JWT, fetch user from DB and return
-  // ...
+  const jwt = generateJwt({ userId: user.id, userRole: user.role });
+  return NextResponse.json({
+    success: true,
+    user: {
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phone: user.phone,
+      nationalId: user.nationalId,
+      dateOfBirth: user.dateOfBirth,
+      sex: user.sex,
+    },
+    jwt: jwt,
+  });
 }

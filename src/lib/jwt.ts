@@ -29,3 +29,8 @@ export function getUserRole(token: string): UserRole {
   const decoded = jwt.verify(token, SECRET) as JwtPayload;
   return decoded.userRole;
 }
+
+export function getUserId(token: string): string {
+  const decoded = jwt.verify(token, SECRET) as JwtPayload;
+  return decoded.userId;
+}
