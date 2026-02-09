@@ -1,4 +1,4 @@
-import { Client, Account, Transaction } from "@/shared/types";
+import { Client, Account, Transaction, ExpenseCategory } from "@/shared/types";
 import { mockClient, mockAccounts, mockTransactions } from "@/mock/data";
 
 export const authService = {
@@ -68,6 +68,24 @@ export const transactionService = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },
+    });
+  },
+
+  async createTransaction(data: {
+    accountSrcNo: string;
+    accountDestNo: string;
+    amount: number;
+    description: string | null;
+    category: ExpenseCategory | null;
+    currencyID: string;
+  }): Promise<Response> {
+    return fetch(`/api/transactions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+      body: JSON.stringify(data),
     });
   },
 };

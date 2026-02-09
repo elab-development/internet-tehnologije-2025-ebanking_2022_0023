@@ -11,6 +11,7 @@ import {
 import { Account, Transaction, TransactionStatus } from "@/shared/types";
 import Navigation from "@/components/Navigation";
 import ExpenseChart from "@/components/ExpenseChart";
+import TransferModal from "@/components/TransferModal";
 import TransactionModal from "@/components/TransactionModal";
 import Button from "@/components/Button";
 import {
@@ -37,6 +38,7 @@ export default function AccountDetailsPage() {
     "ALL",
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [showTransferModal, setShowTransferModal] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -87,6 +89,40 @@ export default function AccountDetailsPage() {
 
     fetchData();
   }, [accountId]);
+
+  const refreshData = async () => {
+    setIsLoading(true);
+    const res = await accountService.getAccountById(accountId);
+    const data = await res.json();
+    if (data.success) {
+      const currencyRes = await currencyService.getCurrencyById(
+        data.account.currencyID,
+      );
+      const currencyData = await currencyRes.json();
+      const completeAccount = {
+        ...data.account,
+        currency: currencyData.success
+          ? currencyData.currency
+          : { symbol: "", code: "" },
+      };
+      setAccount(completeAccount);
+
+      const res1 = await transactionService.getTransactionsByAccountNo(
+        data.account.accountNo,
+      );
+      const data1 = await res1.json();
+      if (data1.success) {
+        const enrichedTransactions = data1.transactions.map((tx: any) => ({
+          ...tx,
+          amount: Number(tx.amount),
+          currency: completeAccount.currency || { symbol: "RSD" },
+        }));
+        setTransactions(enrichedTransactions);
+        setFilteredTransactions(enrichedTransactions);
+      }
+    }
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     if (statusFilter === "ALL") {
@@ -168,31 +204,51 @@ export default function AccountDetailsPage() {
           <RiArrowLeftLine className="w-5 h-5" />
           Nazad na pregled
         </Button>
-
+        {/* <Button
+          variant="primary"
+          size="md"
+          onClick={() => setShowTransferModal(true)}
+        >
+          Novo plaćanje
+        </Button> */}
         <div className="bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl p-8 text-black shadow-lg mb-8">
-          <div className="flex items-start justify-between mb-6">
+          {/* Gornji red: broj računa + status */}
+          <div className="flex items-start justify-between mb-4">
             <div>
               <p className="text-black/70 text-sm font-medium mb-1">
                 Broj računa
               </p>
-              <p className="text-2xl font-semibold mb-4">{account.accountNo}</p>
+              <p className="text-2xl font-semibold">{account.accountNo}</p>
             </div>
+
             <span className="px-3 py-1 bg-black/10 rounded-full text-sm font-medium">
               {account.status}
             </span>
           </div>
 
-          <div>
-            <p className="text-black/70 text-sm font-medium mb-2">
-              Raspoloživo stanje
-            </p>
-            <p className="text-5xl font-bold">
-              {account.balance.toLocaleString("sr-RS", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}{" "}
-              {account.currency.symbol}
-            </p>
+          {/* Donji red: stanje + dugme poravnato */}
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="text-black/70 text-sm font-medium mb-2">
+                Raspoloživo stanje
+              </p>
+              <p className="text-5xl font-bold leading-none">
+                {account.balance.toLocaleString("sr-RS", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}{" "}
+                {account.currency.symbol}
+              </p>
+            </div>
+
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => setShowTransferModal(true)}
+              className="bg-yellow-100 hover:bg-yellow-200 text-black-900 border border-yellow-300 shadow-sm hover:shadow transition-all"
+            >
+              Novo plaćanje
+            </Button>
           </div>
         </div>
 
@@ -334,6 +390,13 @@ export default function AccountDetailsPage() {
         <TransactionModal
           transaction={selectedTransaction}
           onClose={() => setSelectedTransaction(null)}
+        />
+      )}
+      {showTransferModal && account && (
+        <TransferModal
+          account={account}
+          onClose={() => setShowTransferModal(false)}
+          onSuccess={refreshData}
         />
       )}
     </div>
