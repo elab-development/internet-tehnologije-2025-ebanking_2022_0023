@@ -16,9 +16,10 @@ import { NextRequest, NextResponse } from "next/server";
  */
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const currency = await getCurrencyById(params.id);
+  const resolvedParams = await params;
+  const currency = await getCurrencyById(resolvedParams.id);
   if (!currency) {
     return NextResponse.json({ success: false }, { status: 400 });
   }

@@ -10,7 +10,7 @@ export async function login(
   const [user] = await db.select().from(users).where(eq(users.email, email));
   if (!user) return null;
 
-  const isValid = compare(password, user.password);
+  const isValid = await compare(password, user.password);
   if (!isValid) return null;
 
   if (!user.active) return null;

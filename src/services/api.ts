@@ -17,16 +17,16 @@ export const authService = {
   },
 };
 
-export const clientService = {
-  async getClientById(id: number): Promise<Client | null> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+// export const clientService = {
+//   async getClientById(id: number): Promise<Client | null> {
+//     await new Promise((resolve) => setTimeout(resolve, 300));
 
-    if (id === mockClient.id) {
-      return mockClient;
-    }
-    return null;
-  },
-};
+//     if (id === mockClient.id) {
+//       return mockClient;
+//     }
+//     return null;
+//   },
+// };
 
 export const accountService = {
   async getAccountsByClientId(): Promise<Response> {

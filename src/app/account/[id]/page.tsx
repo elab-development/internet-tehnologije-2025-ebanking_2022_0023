@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useAuth } from "@/context/AuthenticationContext";
-import { accountService, transactionService } from "@/services/api";
+import {
+  accountService,
+  currencyService,
+  transactionService,
+} from "@/services/api";
 import { Account, Transaction, TransactionStatus } from "@/shared/types";
 import Navigation from "@/components/Navigation";
 import ExpenseChart from "@/components/ExpenseChart";
@@ -42,17 +46,40 @@ export default function AccountDetailsPage() {
 
   useEffect(() => {
     const fetchData = async () => {
+      // Ucitavamo podatke o account-u
       const res = await accountService.getAccountById(accountId);
       const data = await res.json();
       if (data.success) {
-        setAccount(data.account);
+        // Ucitavamo podatke o currency
+        const currencyRes = await currencyService.getCurrencyById(
+          data.account.currencyID,
+        );
+        const currencyData = await currencyRes.json();
+        // Spajamo sa account
+        const completeAccount = {
+          ...data.account,
+          currency: currencyData.success
+            ? currencyData.currency
+            : { symbol: "", code: "" },
+        };
+        setAccount(completeAccount);
+        // Ucitavamo transactions
         const res1 = await transactionService.getTransactionsByAccountNo(
-          account!.accountNo,
+          data.account.accountNo,
         );
         const data1 = await res1.json();
+        // Dobija se niz transakcija
         if (data1.success) {
-          setTransactions(data1.transactions);
-          setFilteredTransactions(data1.transactions);
+          // Povezujemo transakciju sa valutom
+          const enrichedTransactions = data1.transactions.map((tx: any) => ({
+            ...tx,
+            amount: Number(tx.amount),
+            currency: account?.currency ||
+              completeAccount.currency || { symbol: "RSD" },
+          }));
+          // Postavljamo useState promenljive sa PROSIRENIM podacima
+          setTransactions(enrichedTransactions);
+          setFilteredTransactions(enrichedTransactions);
         }
       }
       setIsLoading(false);

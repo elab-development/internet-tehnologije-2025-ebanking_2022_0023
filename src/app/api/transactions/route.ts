@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const accNo = searchParams.get("accNo");
 
-  const transactions = getTransactionsByAccNo(accNo);
+  const transactions = await getTransactionsByAccNo(accNo);
   if (!transactions) {
     return NextResponse.json({ success: false }, { status: 400 });
   }

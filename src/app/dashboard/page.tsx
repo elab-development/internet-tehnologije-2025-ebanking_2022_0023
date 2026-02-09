@@ -33,7 +33,7 @@ export default function DashboardPage() {
         const data = await res.json();
         if (data.success) {
           const newAccounts = await Promise.all(
-            data.accounts.map(async (acc) => {
+            data.accounts.map(async (acc: any) => {
               const currencyData = await (
                 await currencyService.getCurrencyById(acc.currencyID)
               ).json();
@@ -76,7 +76,7 @@ export default function DashboardPage() {
 
   const totalBalance = accounts.reduce((sum, acc) => {
     if (acc.currency.code === "RSD") {
-      return sum + acc.balance;
+      return sum + Number(acc.balance);
     }
     return sum;
   }, 0);
