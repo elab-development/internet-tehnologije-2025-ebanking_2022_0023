@@ -36,12 +36,13 @@ export default function EditClientForm({ client, onClose, onSaved }: Props) {
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
       <div className="bg-white rounded-xl p-6 w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Izmena klijenta</h2>
+        <h2 className="text-xl font-bold mb-4 text-black tracking-wide">Izmena klijenta</h2>
 
         {["firstName", "lastName", "phone"].map((field) => (
           <input
             key={field}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-3"
+            className="w-full border border-gray-400 rounded-lg px-4 py-2 mb-3 text-black focus:outline-none focus:ring-2 focus:ring-yellow-500"
+
             value={(form as any)[field]}
             onChange={(e) =>
               setForm({ ...form, [field]: e.target.value })
