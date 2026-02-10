@@ -53,7 +53,10 @@ export default function AdminDashboardPage() {
     if (isLoading || loadingClients) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
+        <Navigation
+          showHomeButton={false}
+          clickableLogo={false}
+        />
         <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
           <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin" />
         </div>
@@ -63,7 +66,10 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
+     <Navigation
+      showHomeButton={false}
+      clickableLogo={false}
+    />
 
       <main className="max-w-7xl mx-auto px-6 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
