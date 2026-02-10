@@ -27,12 +27,25 @@ export default function LoginPage() {
 
     const success = await login(email, password);
 
+    // if (success) {
+    //   router.push("/dashboard");
+    // } else {
+    //   setError("Neispravni podaci za prijavu");
+    //   setIsLoading(false);
+    // }
+
     if (success) {
+    const storedUser = JSON.parse(localStorage.getItem("user")!);
+
+    if (storedUser.role === "CLIENT") {
       router.push("/dashboard");
-    } else {
-      setError("Neispravni podaci za prijavu");
-      setIsLoading(false);
+    } else if (storedUser.role === "MANAGER") {
+      router.push("/dashboard/manager");
+    } else if (storedUser.role === "ADMIN") {
+      router.push("/dashboard/admin");
     }
+}
+
   };
 
   return (
@@ -126,6 +139,22 @@ export default function LoginPage() {
               Email: marko.petrovic@email.com
             </p>
             <p className="text-xs text-gray-600">Lozinka: test123</p>
+
+            <p className="text-xs text-gray-600 font-medium mb-2">
+              Manager
+            </p>
+            <p className="text-xs text-gray-600">
+              Email: manager@bank.rs
+            </p>
+            <p className="text-xs text-gray-600">Lozinka: manager123</p>
+
+            <p className="text-xs text-gray-600 font-medium mb-2">
+              Admin
+            </p>
+            <p className="text-xs text-gray-600">
+              Email: admin@bank.rs
+            </p>
+            <p className="text-xs text-gray-600">Lozinka: admin123</p>
           </div>
         </div>
       </div>

@@ -24,6 +24,8 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     success: true,
     user: {
+      id: user.id,      //dodao id
+      role: user.role, //dodao uloge zbog razlicitih prikaza 
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
