@@ -9,7 +9,7 @@ export async function PUT(
   context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await context.params; // ✅ unwrap params
+    const { id } = await context.params; 
 
     const user = await getUserFromRequest(req);
     if (user.role !== "ADMIN") {
@@ -26,7 +26,7 @@ export async function PUT(
         lastName,
         phone,
       })
-      .where(eq(users.id, id)); // ✅ use unwrapped id
+      .where(eq(users.id, id)); 
 
     return Response.json({ success: true });
   } catch (error) {

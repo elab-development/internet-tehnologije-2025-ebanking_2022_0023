@@ -22,7 +22,7 @@ export default function AdminDashboardPage() {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [loadingClients, setLoadingClients] = useState(true);
 
-  // 🔒 Role protection
+  // Role protection
   useEffect(() => {
     if (!isLoading) {
       if (!user) router.push("/login");
