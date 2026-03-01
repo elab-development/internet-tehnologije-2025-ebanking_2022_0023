@@ -66,6 +66,18 @@ export default function Navigation({
                     Početna
                   </button>
                 </Link>
+
+                <Link href="/exchange-rates">
+                  <button
+                    className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-colors ${
+                      pathname === "/exchange-rates"
+                        ? "bg-yellow-50 text-yellow-700 font-medium"
+                        : "text-gray-600 hover:bg-gray-50"
+                    }`}
+                  >
+                    Kursevi
+                  </button>
+                </Link>
               </div>
             )}
           </div>
