@@ -66,9 +66,25 @@ export const currencyService = {
   async getCurrencyById(id: string): Promise<Response> {
     return fetch(`/api/currencies/${id}`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
+  },
+  async getAllCurrencies(): Promise<Response> {
+    return fetch(`/api/currencies`, {
+      method: "GET",
+    });
+  },
+};
+
+export const exchangeRatesService = {
+  async getExchangeRate(
+    currencyCodeFrom: string,
+    currencyCodeTo: string,
+  ): Promise<Response> {
+    return fetch(
+      `/api/exchange-rates?from=${currencyCodeFrom}&to=${currencyCodeTo}`,
+      {
+        method: "GET",
+      },
+    );
   },
 };

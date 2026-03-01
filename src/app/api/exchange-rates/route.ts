@@ -26,7 +26,8 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const res = await fetch(`https://open.er-api.com/v6/latest/${currencyFrom}`, {
+  const url = process.env.EXCHANGE_RATES_API_URL;
+  const res = await fetch(`${url}/${currencyFrom}`, {
     method: "GET",
   });
   const data = await res.json();
