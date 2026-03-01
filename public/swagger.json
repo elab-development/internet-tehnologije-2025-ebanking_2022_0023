@@ -1,0 +1,190 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "Log In a User",
+        "responses": {
+          "200": {
+            "description": "Successful login. Returns user object and JWT."
+          },
+          "400": {
+            "description": "Invalid credentials."
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "summary": "Log Out a User"
+      }
+    },
+
+    "/api/accounts": {
+      "get": {
+        "summary": "Get All Client's Accounts",
+        "responses": {
+          "200": {
+            "description": "Returns an array of accounts."
+          },
+          "401": {
+            "description": "Invalid or missing JWT."
+          }
+        }
+      }
+    },
+    "/api/accounts/{id}": {
+      "get": {
+        "summary": "Get Client's Account by Id",
+        "responses": {
+          "200": {
+            "description": "Returns an account object."
+          },
+          "400": {
+            "description": "No account found."
+          },
+          "401": {
+            "description": "Invalid or missing JWT."
+          }
+        }
+      }
+    },
+
+    "/api/clients": {
+      "get": {
+        "summary": "Get All Clients",
+        "responses": {
+          "200": {
+            "description": "Returns an array of clients."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        }
+      }
+    },
+    "/api/clients/manager": {
+      "get": {
+        "summary": "Get All Clients of a Manager",
+        "responses": {
+          "200": {
+            "description": "Returns an array of clients."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        }
+      }
+    },
+    "/api/clients/{id}": {
+      "put": {
+        "summary": "Update a Client",
+        "responses": {
+          "200": {
+            "description": "Updates a client."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        }
+      }
+    },
+
+    "/api/currencies": {
+      "get": {
+        "summary": "Get All Currencies",
+        "responses": {
+          "200": {
+            "description": "Returns an array of currencies."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/api/currencies/{id}": {
+      "get": {
+        "summary": "Get Currency by Id",
+        "responses": {
+          "200": {
+            "description": "Returns currency."
+          },
+          "400": {
+            "description": "No currency found."
+          }
+        }
+      }
+    },
+
+    "/api/exhange-rates": {
+      "get": {
+        "summary": "Get Exchange Rate From One Currency To Another",
+        "responses": {
+          "200": {
+            "description": "Returns an exchange rate."
+          },
+          "400": {
+            "description": "Missing query parameter(s)."
+          },
+          "500": {
+            "description": "External API error."
+          }
+        }
+      }
+    },
+
+    "/api/transactions": {
+      "get": {
+        "summary": "Get All Transactions of an Account",
+        "responses": {
+          "200": {
+            "description": "Returns an array of transactions."
+          },
+          "400": {
+            "description": "No transactions found."
+          },
+          "401": {
+            "description": "Invalid or missing JWT."
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a Transaction for an Account",
+        "responses": {
+          "201": {
+            "description": "Returns the created transaction."
+          },
+          "400": {
+            "description": "Missing data."
+          },
+          "401": {
+            "description": "Invalid or missing JWT."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "/api/transactions/{id}": {
+        "get": {
+          "summary": "Get a Transaction by Id",
+          "responses": {
+            "200": {
+              "description": "Returns the transaction."
+            },
+            "400": {
+              "description": "No transaction found."
+            },
+            "401": {
+              "description": "Invalid or missing JWT."
+            }
+          }
+        }
+      }
+    }
+  }
+}

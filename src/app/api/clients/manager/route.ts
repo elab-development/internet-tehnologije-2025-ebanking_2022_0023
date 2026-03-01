@@ -1,10 +1,7 @@
-// API: fetch clients
-
-// app/api/clients/manager/route.ts
 import { db } from "@/db";
-import { users, managerClients } from "@/db/schema";
+import { managerClients, users } from "@/db/schema";
+import { getUserFromRequest } from "@/lib/auth";
 import { eq } from "drizzle-orm";
-import { getUserFromRequest } from "@/lib/auth"; // jwt helper 
 
 export async function GET(req: Request) {
   const user = await getUserFromRequest(req);
