@@ -1,11 +1,10 @@
 "use client";
 
+import { useAuth } from "@/context/AuthenticationContext";
+import { RiHome5Line, RiLogoutBoxLine, RiUserLine } from "@remixicon/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthenticationContext";
 import Button from "./Button";
-import { RiHome5Line, RiLogoutBoxLine, RiUserLine } from "@remixicon/react";
-
 
 type NavigationProps = {
   showHomeButton?: boolean;
@@ -21,7 +20,7 @@ export default function Navigation({
   const { user, logout } = useAuth();
 
   const handleLogout = async () => {
-    await logout();
+    await logout(user!.email);
     router.push("/login");
   };
 
@@ -34,9 +33,7 @@ export default function Navigation({
       <div className="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center">
         <span className="text-black font-bold text-xl">B</span>
       </div>
-      <span className="text-xl font-bold text-gray-900">
-        ITEH Banka
-      </span>
+      <span className="text-xl font-bold text-gray-900">ITEH Banka</span>
     </>
   );
 
@@ -97,4 +94,3 @@ export default function Navigation({
     </nav>
   );
 }
-

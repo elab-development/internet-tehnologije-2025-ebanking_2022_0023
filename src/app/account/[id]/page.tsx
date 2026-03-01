@@ -1,25 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
-import { useAuth } from "@/context/AuthenticationContext";
-import {
-  accountService,
-  currencyService,
-  transactionService,
-} from "@/services/api";
-import { Account, Transaction, TransactionStatus } from "@/shared/types";
-import Navigation from "@/components/Navigation";
-import ExpenseChart from "@/components/ExpenseChart";
-import TransferModal from "@/components/TransferModal";
-import TransactionModal from "@/components/TransactionModal";
+import { accountService, currencyService, transactionService } from "@/api";
 import Button from "@/components/Button";
+import ExpenseChart from "@/components/ExpenseChart";
+import Navigation from "@/components/Navigation";
+import TransactionModal from "@/components/TransactionModal";
+import TransferModal from "@/components/TransferModal";
+import { useAuth } from "@/context/AuthenticationContext";
+import { Account, Transaction, TransactionStatus } from "@/shared/types";
 import {
-  RiArrowLeftLine,
-  RiFilterLine,
   RiArrowDownLine,
+  RiArrowLeftLine,
   RiArrowUpLine,
+  RiFilterLine,
 } from "@remixicon/react";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function AccountDetailsPage() {
   const { user, isLoading: authLoading } = useAuth();

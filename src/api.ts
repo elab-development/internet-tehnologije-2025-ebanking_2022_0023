@@ -1,32 +1,4 @@
-import { Client, Account, Transaction, ExpenseCategory } from "@/shared/types";
-import { mockClient, mockAccounts, mockTransactions } from "@/mock/data";
-
-export const authService = {
-  async login(email: string, password: string): Promise<Response> {
-    return fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: email, password: password }),
-    });
-  },
-
-  async logout(): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
-  },
-};
-
-// export const clientService = {
-//   async getClientById(id: number): Promise<Client | null> {
-//     await new Promise((resolve) => setTimeout(resolve, 300));
-
-//     if (id === mockClient.id) {
-//       return mockClient;
-//     }
-//     return null;
-//   },
-// };
+import { ExpenseCategory } from "@/shared/types";
 
 export const accountService = {
   async getAccountsByClientId(): Promise<Response> {

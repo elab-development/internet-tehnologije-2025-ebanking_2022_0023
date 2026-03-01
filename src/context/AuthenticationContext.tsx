@@ -1,19 +1,18 @@
 "use client";
 
+import { Client } from "@/shared/types";
 import {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   ReactNode,
+  useContext,
+  useEffect,
+  useState,
 } from "react";
-import { Client } from "@/shared/types";
-import { authService } from "@/services/api";
 
 interface AuthContextType {
   user: Client | null;
   login: (email: string, password: string) => Promise<boolean>;
-  logout: () => Promise<void>;
+  logout: (email: string) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -33,7 +32,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const res = await authService.login(email, password);
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email, password: password }),
+      });
+
       const data = await res.json();
       if (data.success) {
         setUser(data.user);
@@ -48,8 +54,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const logout = async () => {
-    await authService.logout();
+  const logout = async (email: string): Promise<void> => {
+    await fetch("/api/auth/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email }),
+    });
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("jwt");
