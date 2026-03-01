@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthenticationContext";
-import Navigation from "@/components/Navigation";
 import ClientCard from "@/components/ClientCard";
 import EditClientForm from "@/components/EditClientForm";
+import Navigation from "@/components/Navigation";
+import { useAuth } from "@/context/AuthenticationContext";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type Client = {
   id: string;
@@ -30,7 +30,7 @@ export default function AdminDashboardPage() {
     }
   }, [user, isLoading, router]);
 
-    const fetchClients = async () => {
+  const fetchClients = async () => {
     const res = await fetch("/api/clients", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
@@ -50,13 +50,10 @@ export default function AdminDashboardPage() {
     }
   }, [user]);
 
-    if (isLoading || loadingClients) {
+  if (isLoading || loadingClients) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navigation
-          showHomeButton={false}
-          clickableLogo={false}
-        />
+        <Navigation showHomeButton={false} clickableLogo={false} />
         <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
           <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin" />
         </div>
@@ -66,18 +63,11 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-     <Navigation
-      showHomeButton={false}
-      clickableLogo={false}
-    />
+      <Navigation showHomeButton={false} clickableLogo={false} />
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Svi klijenti
-        </h1>
-        <p className="text-gray-600 mb-8">
-          Administracija klijenata
-        </p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Svi klijenti</h1>
+        <p className="text-gray-600 mb-8">Administracija klijenata</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {clients.map((client) => (

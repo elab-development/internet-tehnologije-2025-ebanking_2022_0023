@@ -11,3 +11,8 @@ export async function getCurrencyById(id: string): Promise<Currency | null> {
   if (!search) return null;
   return search;
 }
+
+export async function getAllCurrencies(): Promise<Currency[]> {
+  const results = await db.select().from(currencies);
+  return results;
+}
