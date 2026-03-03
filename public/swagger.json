@@ -4,31 +4,84 @@
     "/api/auth/login": {
       "post": {
         "summary": "Log In a User",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Successful login. Returns user object and JWT."
+            "description": "Successful login. Returns user object and JWT.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseSuccess"
+                }
+              }
+            }
           },
           "400": {
-            "description": "Invalid credentials."
+            "description": "Invalid credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/auth/logout": {
       "post": {
-        "summary": "Log Out a User"
+        "summary": "Log Out a User",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            }
+          }
+        }
       }
     },
 
     "/api/accounts": {
       "get": {
         "summary": "Get All Client's Accounts",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Returns an array of accounts."
+            "description": "Returns an array of accounts.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountsResponseSuccess"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Invalid or missing JWT."
+            "description": "Invalid or missing JWT.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           }
         }
       }
@@ -36,15 +89,52 @@
     "/api/accounts/{id}": {
       "get": {
         "summary": "Get Client's Account by Id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Returns an account object."
+            "description": "Returns an account object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountResponseSuccess"
+                }
+              }
+            }
           },
           "400": {
-            "description": "No account found."
+            "description": "No account found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Invalid or missing JWT."
+            "description": "Invalid or missing JWT.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           }
         }
       }
@@ -53,12 +143,31 @@
     "/api/clients": {
       "get": {
         "summary": "Get All Clients",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Returns an array of clients."
+            "description": "Returns an array of clients.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientsResponseSuccess"
+                }
+              }
+            }
           },
           "403": {
-            "description": "Forbidden."
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           }
         }
       }
@@ -66,12 +175,31 @@
     "/api/clients/manager": {
       "get": {
         "summary": "Get All Clients of a Manager",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Returns an array of clients."
+            "description": "Returns an array of clients.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientsForManagerResponseSuccess"
+                }
+              }
+            }
           },
           "403": {
-            "description": "Forbidden."
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           }
         }
       }
@@ -79,15 +207,62 @@
     "/api/clients/{id}": {
       "put": {
         "summary": "Update a Client",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateClientRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Updates a client."
+            "description": "Updates a client.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSuccess"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized."
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           },
           "403": {
-            "description": "Forbidden."
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           }
         }
       }
@@ -98,10 +273,24 @@
         "summary": "Get All Currencies",
         "responses": {
           "200": {
-            "description": "Returns an array of currencies."
+            "description": "Returns an array of currencies.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrenciesResponseSuccess"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Server error."
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           }
         }
       }
@@ -109,29 +298,93 @@
     "/api/currencies/{id}": {
       "get": {
         "summary": "Get Currency by Id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Returns currency."
+            "description": "Returns currency.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrencyResponseSuccess"
+                }
+              }
+            }
           },
           "400": {
-            "description": "No currency found."
+            "description": "No currency found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           }
         }
       }
     },
 
-    "/api/exhange-rates": {
+    "/api/exchange-rates": {
       "get": {
         "summary": "Get Exchange Rate From One Currency To Another",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Returns an exchange rate."
+            "description": "Returns an exchange rate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeRatesResponseSuccess"
+                }
+              }
+            }
           },
           "400": {
-            "description": "Missing query parameter(s)."
+            "description": "Missing query parameter(s).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           },
           "500": {
-            "description": "External API error."
+            "description": "External API error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           }
         }
       }
@@ -140,50 +393,613 @@
     "/api/transactions": {
       "get": {
         "summary": "Get All Transactions of an Account",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "accNo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Returns an array of transactions."
+            "description": "Returns an array of transactions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionsResponseSuccess"
+                }
+              }
+            }
           },
           "400": {
-            "description": "No transactions found."
+            "description": "No transactions found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Invalid or missing JWT."
+            "description": "Invalid or missing JWT.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           }
         }
       },
       "post": {
         "summary": "Create a Transaction for an Account",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransactionRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
-            "description": "Returns the created transaction."
+            "description": "Returns the created transaction.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionResponseSuccess"
+                }
+              }
+            }
           },
           "400": {
-            "description": "Missing data."
+            "description": "Missing data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Invalid or missing JWT."
+            "description": "Invalid or missing JWT.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Server error."
-          }
-        }
-      },
-      "/api/transactions/{id}": {
-        "get": {
-          "summary": "Get a Transaction by Id",
-          "responses": {
-            "200": {
-              "description": "Returns the transaction."
-            },
-            "400": {
-              "description": "No transaction found."
-            },
-            "401": {
-              "description": "Invalid or missing JWT."
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
             }
           }
         }
+      }
+    },
+    "/api/transactions/{id}": {
+      "get": {
+        "summary": "Get a Transaction by Id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the transaction.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionResponseSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No transaction found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing JWT.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseFailure"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+
+    "schemas": {
+      "ResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          }
+        }
+      },
+
+      "ResponseFailure": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [false]
+          }
+        }
+      },
+
+      "LoginResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "role": {
+                "type": "string",
+                "enum": ["ADMIN", "MANAGER", "CLIENT"]
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "firstName": {
+                "type": "string"
+              },
+              "lastName": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "nationalId": {
+                "type": "string"
+              },
+              "dateOfBirth": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "sex": {
+                "type": "string",
+                "enum": ["Muški", "Ženski"]
+              }
+            }
+          },
+          "jwt": {
+            "type": "string"
+          }
+        }
+      },
+
+      "AccountDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["Aktivan", "Neaktivan", "Blokiran"]
+          },
+          "accountNo": {
+            "type": "string"
+          },
+          "balance": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "clientID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currencyID": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+
+      "AccountsResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "accounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountDto"
+            }
+          }
+        }
+      },
+
+      "AccountResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "account": {
+            "type": "object",
+            "$ref": "#/components/schemas/AccountDto"
+          }
+        }
+      },
+
+      "ClientDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          }
+        }
+      },
+
+      "ClientForManagerDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        }
+      },
+
+      "ClientsResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "clients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClientDto"
+            }
+          }
+        }
+      },
+
+      "ClientsForManagerResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "clients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClientForManagerDto"
+            }
+          }
+        }
+      },
+
+      "CurrencyDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          }
+        }
+      },
+
+      "CurrenciesResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "currencies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CurrencyDto"
+            }
+          }
+        }
+      },
+
+      "CurrencyResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "currency": {
+            "type": "object",
+            "$ref": "#/components/schemas/CurrencyDto"
+          }
+        }
+      },
+
+      "ExchangeRatesResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "rate": {
+            "type": "number"
+          }
+        }
+      },
+
+      "TransactionDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["Na čekanju", "Izvršena", "Neuspešna"]
+          },
+          "amount": {
+            "type": "number"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "accountSrcNo": {
+            "type": "string"
+          },
+          "accountDestNo": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "Stanovanje",
+              "Domaćinstvo",
+              "Hrana",
+              "Sport",
+              "Zabava",
+              "Izlazak",
+              "Ostalo"
+            ],
+            "nullable": true
+          },
+          "currencyID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "accountSrcID": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "accountDestID": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        }
+      },
+
+      "TransactionsResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionDto"
+            }
+          }
+        }
+      },
+
+      "TransactionResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "transaction": {
+            "type": "object",
+            "$ref": "#/components/schemas/TransactionDto"
+          }
+        }
+      },
+
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        },
+        "required": ["email", "password"]
+      },
+
+      "LogoutRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        },
+        "required": ["email"]
+      },
+
+      "UpdateClientRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          }
+        },
+        "required": ["firstName", "lastName", "phone"]
+      },
+
+      "CreateTransactionRequest": {
+        "type": "object",
+        "properties": {
+          "accountSrcNo": {
+            "type": "string"
+          },
+          "accountDestNo": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "Stanovanje",
+              "Domaćinstvo",
+              "Hrana",
+              "Sport",
+              "Zabava",
+              "Izlazak",
+              "Ostalo"
+            ],
+            "nullable": true
+          },
+          "currencyID": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "accountSrcNo",
+          "accountDestNo",
+          "amount",
+          "description",
+          "category",
+          "currencyID"
+        ]
       }
     }
   }
