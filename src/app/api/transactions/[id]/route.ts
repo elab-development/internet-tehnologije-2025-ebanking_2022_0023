@@ -18,8 +18,9 @@ import { NextRequest, NextResponse } from "next/server";
  */
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   const authHeader = req.headers.get("authorization");
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return NextResponse.json({ success: false }, { status: 401 });
@@ -30,7 +31,7 @@ export async function GET(
     return NextResponse.json({ success: false }, { status: 401 });
   }
 
-  const transaction = getTransactionById(params.id);
+  const transaction = getTransactionById(id);
   if (!transaction) {
     return NextResponse.json({ success: false }, { status: 400 });
   }
