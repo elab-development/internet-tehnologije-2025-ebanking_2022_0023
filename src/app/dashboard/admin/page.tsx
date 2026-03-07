@@ -26,7 +26,7 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     if (!isLoading) {
       if (!user) router.push("/login");
-      else if (user.role !== "ADMIN") router.push("/dashboard");
+      else if ((user.role as string) !== "ADMIN") router.push("/dashboard");
     }
   }, [user, isLoading, router]);
 
@@ -45,7 +45,7 @@ export default function AdminDashboardPage() {
   };
 
   useEffect(() => {
-    if (user?.role === "ADMIN") {
+    if ((user?.role as string) === "ADMIN") {
       fetchClients();
     }
   }, [user]);

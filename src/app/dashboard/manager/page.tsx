@@ -22,11 +22,11 @@ export default function ManagerDashboardPage() {
   useEffect(() => {
     if (!isLoading) {
       if (!user) router.push("/login");
-      else if (user.role !== "MANAGER") router.push("/dashboard");
+      else if ((user.role as string) !== "MANAGER") router.push("/dashboard");
     }
   }, [user, isLoading, router]);
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchClients = async () => {
       const res = await fetch("/api/clients/manager", {
         headers: {
@@ -41,18 +41,15 @@ export default function ManagerDashboardPage() {
       setLoadingClients(false);
     };
 
-    if (user?.role === "MANAGER") {
+    if ((user?.role as string) === "MANAGER") {
       fetchClients();
     }
   }, [user]);
 
-    if (isLoading || loadingClients) {
+  if (isLoading || loadingClients) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navigation
-          showHomeButton={false}
-          clickableLogo={false}
-        />
+        <Navigation showHomeButton={false} clickableLogo={false} />
         <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
           <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin" />
         </div>
@@ -62,17 +59,10 @@ export default function ManagerDashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation
-        showHomeButton={false}
-        clickableLogo={false}
-      />
+      <Navigation showHomeButton={false} clickableLogo={false} />
       <main className="max-w-7xl mx-auto px-6 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Vaši klijenti
-        </h1>
-        <p className="text-gray-600 mb-8">
-          Klijenti koji su dodeljeni vama
-        </p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Vaši klijenti</h1>
+        <p className="text-gray-600 mb-8">Klijenti koji su dodeljeni vama</p>
 
         {clients.length === 0 ? (
           <p className="text-gray-500">Nemate dodeljene klijente.</p>
@@ -87,5 +77,3 @@ export default function ManagerDashboardPage() {
     </div>
   );
 }
-
-

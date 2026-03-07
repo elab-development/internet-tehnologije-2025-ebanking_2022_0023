@@ -15,31 +15,31 @@ import {
 
 export const currencies: Array<Currency> = [
   {
-    id: 1,
+    id: "1",
     code: "RSD",
     name: "Srpski dinar",
     symbol: "RSD",
   },
   {
-    id: 2,
+    id: "2",
     code: "EUR",
     name: "Evro",
     symbol: "€",
   },
   {
-    id: 3,
+    id: "3",
     code: "GBP",
     name: "Britanska funta",
     symbol: "£",
   },
   {
-    id: 4,
+    id: "4",
     code: "USD",
     name: "Američki dolar",
     symbol: "$",
   },
   {
-    id: 5,
+    id: "5",
     code: "JPY",
     name: "Japanski jen",
     symbol: "¥",
@@ -47,7 +47,7 @@ export const currencies: Array<Currency> = [
 ];
 
 export const mockClient: Client = {
-  id: 1,
+  id: "1",
   role: "CLIENT",
   email: "marko.petrovic@email.com",
   password: "test123",
@@ -64,7 +64,7 @@ export const mockClient: Client = {
 
 export const mockAccounts: Array<Account> = [
   {
-    id: 1,
+    id: "1",
     accountNo: "160-0000012345678-91",
     balance: 125430.5,
     createdAt: new Date("2020-01-10"),
@@ -74,20 +74,20 @@ export const mockAccounts: Array<Account> = [
     transactionIDs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
-    id: 2,
+    id: "2",
     accountNo: "160-0000087654321-15",
     balance: 3250.75,
     createdAt: new Date("2021-06-20"),
     status: AccountStatus.ACTIVE,
     clientID: 1,
     currency: currencies[1],
-    transactionIDs: [11, 12, 13, 14, 15, 16, 17, 18],
+    transactionIDs: [11, 12, 13, 14, 15, 16, 17, 18, 19],
   },
 ];
 
 export const mockTransactions: Array<Transaction> = [
   {
-    id: 1,
+    id: "1",
     amount: -2500.0,
     timestamp: new Date("2025-02-05T10:30:00"),
     accountSrcNo: "160-0000012345678-91",
@@ -98,7 +98,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[0],
   },
   {
-    id: 2,
+    id: "2",
     amount: -1200.0,
     timestamp: new Date("2025-02-04T14:15:00"),
     accountSrcNo: "160-0000012345678-91",
@@ -109,7 +109,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[0],
   },
   {
-    id: 3,
+    id: "3",
     amount: 85000.0,
     timestamp: new Date("2025-02-01T09:00:00"),
     accountSrcNo: "190-0000011111111-44",
@@ -120,7 +120,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[0],
   },
   {
-    id: 4,
+    id: "4",
     amount: -3500.0,
     timestamp: new Date("2025-01-30T18:45:00"),
     accountSrcNo: "160-0000012345678-91",
@@ -131,7 +131,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[0],
   },
   {
-    id: 5,
+    id: "5",
     amount: -850.0,
     timestamp: new Date("2025-01-28T20:30:00"),
     accountSrcNo: "160-0000012345678-91",
@@ -142,7 +142,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[0],
   },
   {
-    id: 6,
+    id: "6",
     amount: -4200.0,
     timestamp: new Date("2025-01-25T11:20:00"),
     accountSrcNo: "160-0000012345678-91",
@@ -153,7 +153,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[0],
   },
   {
-    id: 7,
+    id: "7",
     amount: -1500.0,
     timestamp: new Date("2025-01-22T16:00:00"),
     accountSrcNo: "160-0000012345678-91",
@@ -164,7 +164,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[0],
   },
   {
-    id: 8,
+    id: "8",
     amount: -2800.0,
     timestamp: new Date("2025-01-20T13:30:00"),
     accountSrcNo: "160-0000012345678-91",
@@ -175,7 +175,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[0],
   },
   {
-    id: 9,
+    id: "9",
     amount: -5000.0,
     timestamp: new Date("2025-02-07T10:00:00"),
     accountSrcNo: "160-0000012345678-91",
@@ -186,7 +186,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[0],
   },
   {
-    id: 10,
+    id: "10",
     amount: -750.0,
     timestamp: new Date("2025-01-18T19:15:00"),
     accountSrcNo: "160-0000012345678-91",
@@ -197,7 +197,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[0],
   },
   {
-    id: 11,
+    id: "11",
     amount: -120.5,
     timestamp: new Date("2025-02-06T12:00:00"),
     accountSrcNo: "160-0000087654321-15",
@@ -208,7 +208,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[1],
   },
   {
-    id: 12,
+    id: "12",
     amount: 500.0,
     timestamp: new Date("2025-02-03T15:30:00"),
     accountSrcNo: "180-0000055555555-33",
@@ -219,7 +219,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[1],
   },
   {
-    id: 13,
+    id: "13",
     amount: -45.0,
     timestamp: new Date("2025-02-02T09:45:00"),
     accountSrcNo: "160-0000087654321-15",
@@ -230,7 +230,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[1],
   },
   {
-    id: 14,
+    id: "14",
     amount: -80.25,
     timestamp: new Date("2025-01-31T17:20:00"),
     accountSrcNo: "160-0000087654321-15",
@@ -241,7 +241,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[1],
   },
   {
-    id: 15,
+    id: "15",
     amount: -150.0,
     timestamp: new Date("2025-01-29T11:00:00"),
     accountSrcNo: "160-0000087654321-15",
@@ -252,7 +252,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[1],
   },
   {
-    id: 16,
+    id: "16",
     amount: 1000.0,
     timestamp: new Date("2025-01-26T10:00:00"),
     accountSrcNo: "160-0000012345678-91",
@@ -263,7 +263,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[1],
   },
   {
-    id: 17,
+    id: "17",
     amount: -35.5,
     timestamp: new Date("2025-01-24T14:30:00"),
     accountSrcNo: "160-0000087654321-15",
@@ -274,7 +274,7 @@ export const mockTransactions: Array<Transaction> = [
     currency: currencies[1],
   },
   {
-    id: 18,
+    id: "18",
     amount: -25.0,
     timestamp: new Date("2025-01-21T16:45:00"),
     accountSrcNo: "160-0000087654321-15",
