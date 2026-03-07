@@ -14,6 +14,9 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { email, password } = body;
+  if (!email || !password) {
+    return NextResponse.json({ success: false }, { status: 400 });
+  }
 
   const user = await login(email, password);
   if (!user) {
@@ -24,8 +27,8 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     success: true,
     user: {
-      id: user.id,      //dodao id
-      role: user.role, //dodao uloge zbog razlicitih prikaza 
+      id: user.id, //dodao id
+      role: user.role, //dodao uloge zbog razlicitih prikaza
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
