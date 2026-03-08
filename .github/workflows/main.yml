@@ -1,0 +1,116 @@
+name: Node.js CI/CD
+
+on:
+  push:
+    branches: ["main", "feature/tests"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: ebanking
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create .env file
+        run: |
+          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/ebanking" > .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "JWT_EXPIRE=1h" >> .env
+
+      - name: Prepare Database (Drizzle Push & Seed)
+        run: |
+          npx drizzle-kit push
+          npm run db:seed
+        env:
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/ebanking"
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRE: "1h"
+
+      - name: Run tests
+        run: npm test -- --passWithNoTests
+        env:
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/ebanking"
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRE: "1h"
+
+      - name: Build Next.js app
+        run: npm run build
+        env:
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/ebanking"
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRE: "1h"
+
+  docker-build-and-push:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/nextjs-ebanking:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/nextjs-ebanking:${{ github.sha }}
+
+  # deploy:
+  #   needs: docker-build-and-push
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  #
+  #   steps:
+  #     - name: Deploy to Server
+  #       uses: appleboy/ssh-action@v1.0.0
+  #       with:
+  #         host: ${{ secrets.SERVER_HOST }}
+  #         username: ${{ secrets.SERVER_USER }}
+  #         key: ${{ secrets.SERVER_SSH_KEY }}
+  #         script: |
+  #           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nextjs-ebanking:latest
+  #           docker stop ebanking-app || true
+  #           docker rm ebanking-app || true
+  #           docker run -d \
+  #             --name ebanking-app \
+  #             -p 3000:3000 \
+  #             -e DATABASE_URL="${{ secrets.NEON_DATABASE_URL }}" \
+  #             -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+  #             -e JWT_EXPIRE="1h" \
+  #             ${{ secrets.DOCKERHUB_USERNAME }}/nextjs-ebanking:latest
