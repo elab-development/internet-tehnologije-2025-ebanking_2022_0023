@@ -7,6 +7,13 @@ import { accountService, currencyService } from "@/api";
 import { Account } from "@/shared/types";
 import AccountCard from "@/components/AccountCard";
 import Navigation from "@/components/Navigation";
+// import BankMap from "@/components/BankMap";
+import dynamic from "next/dynamic";
+
+const BankMap = dynamic(() => import("@/components/BankMap"), {
+  ssr: false,
+}); //morao sam da dodam ovo jer Next.js pokušava da učita komponentu i na serveru (SSR) pa baca error. ovo ce spreciti da radi server side rendering (ssr) za ovu komponentu
+
 import {
   RiUserLine,
   RiPhoneLine,
@@ -162,6 +169,15 @@ export default function DashboardPage() {
             {accounts.map((account) => (
               <AccountCard key={account.id} account={account} />
             ))}
+          </div>
+        </div>
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            Bankomati i filijale
+          </h2>
+
+          <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+            <BankMap />
           </div>
         </div>
       </main>

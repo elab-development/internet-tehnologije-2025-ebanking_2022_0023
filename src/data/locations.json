@@ -1,18 +1,145 @@
 [
   {
-    "id": 1,
-    "name": "Raiffeisen Filijala Knez Mihailova",
-    "type": "branch",
-    "address": "Knez Mihailova 32, Beograd",
-    "lat": 44.8163,
-    "lng": 20.4600
+  "id": 1,
+  "name": "Banka Filijala Knez Mihailova",
+  "type": "branch",
+  "address": "Knez Mihailova 32, Beograd",
+  "lat": 44.8163,
+  "lng": 20.4600
   },
   {
-    "id": 2,
-    "name": "Raiffeisen ATM Studentski trg",
-    "type": "atm",
-    "address": "Studentski trg 16, Beograd",
-    "lat": 44.8187,
-    "lng": 20.4573
+  "id": 2,
+  "name": "Banka ATM Studentski trg",
+  "type": "atm",
+  "address": "Studentski trg 16, Beograd",
+  "lat": 44.8187,
+  "lng": 20.4573
+  },
+
+  {
+  "id": 3,
+  "name": "Banka Filijala Novi Beograd Blok 21",
+  "type": "branch",
+  "address": "Bulevar Mihajla Pupina 165, Novi Beograd",
+  "lat": 44.8145,
+  "lng": 20.4172
+  },
+  {
+  "id": 4,
+  "name": "Banka ATM Arena",
+  "type": "atm",
+  "address": "Španskih boraca 74, Novi Beograd",
+  "lat": 44.8112,
+  "lng": 20.4175
+  },
+  {
+  "id": 5,
+  "name": "Banka ATM Blok 45",
+  "type": "atm",
+  "address": "Jurija Gagarina 221, Novi Beograd",
+  "lat": 44.7876,
+  "lng": 20.4045
+  },
+
+  {
+  "id": 6,
+  "name": "Banka Filijala Borča Centar",
+  "type": "branch",
+  "address": "Ivana Milutinovića 12, Borča",
+  "lat": 44.8703,
+  "lng": 20.4577
+  },
+  {
+  "id": 7,
+  "name": "Banka ATM Borča 3",
+  "type": "atm",
+  "address": "Zrenjaninski put 94, Borča",
+  "lat": 44.8728,
+  "lng": 20.4605
+  },
+
+  {
+  "id": 8,
+  "name": "Banka Filijala Mladenovac",
+  "type": "branch",
+  "address": "Kralja Petra I 25, Mladenovac",
+  "lat": 44.4384,
+  "lng": 20.6995
+  },
+  {
+  "id": 9,
+  "name": "Banka ATM Mladenovac Centar",
+  "type": "atm",
+  "address": "Kralja Aleksandra Obrenovića 71, Mladenovac",
+  "lat": 44.4397,
+  "lng": 20.6972
+  },
+
+  {
+  "id": 10,
+  "name": "Banka Filijala Sopot",
+  "type": "branch",
+  "address": "Kosmajska 12, Sopot",
+  "lat": 44.5211,
+  "lng": 20.5767
+  },
+  {
+  "id": 11,
+  "name": "Banka ATM Sopot Centar",
+  "type": "atm",
+  "address": "Milosa Obrenovića 8, Sopot",
+  "lat": 44.5204,
+  "lng": 20.5779
+  },
+
+  {
+  "id": 12,
+  "name": "Banka Filijala Surčin",
+  "type": "branch",
+  "address": "Vojvođanska 112, Surčin",
+  "lat": 44.7942,
+  "lng": 20.2808
+  },
+  {
+  "id": 13,
+  "name": "Banka ATM Surčin Centar",
+  "type": "atm",
+  "address": "Karađorđeva 45, Surčin",
+  "lat": 44.7931,
+  "lng": 20.2824
+  },
+
+  {
+  "id": 14,
+  "name": "Banka Filijala Grocka",
+  "type": "branch",
+  "address": "Bulevar Oslobođenja 34, Grocka",
+  "lat": 44.6703,
+  "lng": 20.7151
+  },
+  {
+  "id": 15,
+  "name": "Banka ATM Grocka Centar",
+  "type": "atm",
+  "address": "Smerevski put 21, Grocka",
+  "lat": 44.6688,
+  "lng": 20.7163
+  },
+
+  {
+  "id": 16,
+  "name": "Banka ATM Blok 70",
+  "type": "atm",
+  "address": "Gandijeva 122, Novi Beograd",
+  "lat": 44.7982,
+  "lng": 20.3874
+  },
+  {
+  "id": 17,
+  "name": "Banka Filijala Novi Beograd Delta",
+  "type": "branch",
+  "address": "Jurija Gagarina 16, Novi Beograd",
+  "lat": 44.8065,
+  "lng": 20.4011
   }
 ]
