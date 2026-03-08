@@ -35,17 +35,19 @@ export default function LoginPage() {
     // }
 
     if (success) {
-    const storedUser = JSON.parse(localStorage.getItem("user")!);
+      const storedUser = JSON.parse(localStorage.getItem("user")!);
 
-    if (storedUser.role === "CLIENT") {
-      router.push("/dashboard");
-    } else if (storedUser.role === "MANAGER") {
-      router.push("/dashboard/manager");
-    } else if (storedUser.role === "ADMIN") {
-      router.push("/dashboard/admin");
+      if (storedUser.role === "CLIENT") {
+        router.push("/dashboard");
+      } else if (storedUser.role === "MANAGER") {
+        router.push("/dashboard/manager");
+      } else if (storedUser.role === "ADMIN") {
+        router.push("/dashboard/admin");
+      }
+    } else {
+      setError("Neispravni kredencijali. Pokušajte ponovo.");
+      setIsLoading(false);
     }
-}
-
   };
 
   return (
@@ -140,20 +142,12 @@ export default function LoginPage() {
             </p>
             <p className="text-xs text-gray-600">Lozinka: test123</p>
 
-            <p className="text-xs text-gray-600 font-medium mb-2">
-              Manager
-            </p>
-            <p className="text-xs text-gray-600">
-              Email: manager@bank.rs
-            </p>
+            <p className="text-xs text-gray-600 font-medium mb-2">Manager</p>
+            <p className="text-xs text-gray-600">Email: manager@bank.rs</p>
             <p className="text-xs text-gray-600">Lozinka: manager123</p>
 
-            <p className="text-xs text-gray-600 font-medium mb-2">
-              Admin
-            </p>
-            <p className="text-xs text-gray-600">
-              Email: admin@bank.rs
-            </p>
+            <p className="text-xs text-gray-600 font-medium mb-2">Admin</p>
+            <p className="text-xs text-gray-600">Email: admin@bank.rs</p>
             <p className="text-xs text-gray-600">Lozinka: admin123</p>
           </div>
         </div>
