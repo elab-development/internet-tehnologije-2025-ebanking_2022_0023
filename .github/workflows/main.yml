@@ -91,26 +91,12 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/nextjs-ebanking:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/nextjs-ebanking:${{ github.sha }}
 
-  # deploy:
-  #   needs: docker-build-and-push
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-  #
-  #   steps:
-  #     - name: Deploy to Server
-  #       uses: appleboy/ssh-action@v1.0.0
-  #       with:
-  #         host: ${{ secrets.SERVER_HOST }}
-  #         username: ${{ secrets.SERVER_USER }}
-  #         key: ${{ secrets.SERVER_SSH_KEY }}
-  #         script: |
-  #           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nextjs-ebanking:latest
-  #           docker stop ebanking-app || true
-  #           docker rm ebanking-app || true
-  #           docker run -d \
-  #             --name ebanking-app \
-  #             -p 3000:3000 \
-  #             -e DATABASE_URL="${{ secrets.NEON_DATABASE_URL }}" \
-  #             -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
-  #             -e JWT_EXPIRE="1h" \
-  #             ${{ secrets.DOCKERHUB_USERNAME }}/nextjs-ebanking:latest
+  deploy:
+    needs: docker-build-and-push
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy to Server
+        run: |
+          curl -fX POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
