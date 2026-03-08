@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Raiffeisen Filijala Knez Mihailova",
+    "type": "branch",
+    "address": "Knez Mihailova 32, Beograd",
+    "lat": 44.8163,
+    "lng": 20.4600
+  },
+  {
+    "id": 2,
+    "name": "Raiffeisen ATM Studentski trg",
+    "type": "atm",
+    "address": "Studentski trg 16, Beograd",
+    "lat": 44.8187,
+    "lng": 20.4573
+  }
+]
